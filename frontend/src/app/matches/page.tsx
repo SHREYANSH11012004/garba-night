@@ -3,8 +3,15 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { fetchApi } from '@/lib/api';
 
+interface Match {
+  id: string;
+  displayName: string;
+  department: string;
+  photoUrl?: string;
+}
+
 export default function MatchesPage() {
-  const [matches, setMatches] = useState<any[]>([]);
+  const [matches, setMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -15,8 +22,8 @@ export default function MatchesPage() {
         if (response?.data) {
           setMatches(response.data);
         }
-      } catch (err: any) {
-        setError(err.message || 'Failed to load matches');
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : 'Failed to load matches');
       } finally {
         setLoading(false);
       }
@@ -59,7 +66,7 @@ export default function MatchesPage() {
           </div>
         )}
 
-        {!loading && matches.map((match: any) => (
+        {!loading && matches.map((match) => (
           <div key={match.id} className="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 flex gap-4 items-center hover:bg-zinc-800 transition-colors cursor-pointer group">
             <div className="w-16 h-16 rounded-full bg-zinc-800 bg-cover bg-center overflow-hidden shrink-0" style={{ backgroundImage: `url('${match.photoUrl || 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=200&auto=format&fit=crop'}')` }}>
             </div>

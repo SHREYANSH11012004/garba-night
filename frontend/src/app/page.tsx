@@ -73,7 +73,6 @@ export default function LandingPage() {
 
         {/* Headline */}
         <h1
-          style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)" }}
           className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight mb-6 animate-fade-in-up"
           style={{ animationDelay: "100ms", fontFamily: "var(--font-heading, Outfit, sans-serif)" }}
         >
