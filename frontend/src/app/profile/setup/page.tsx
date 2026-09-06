@@ -36,6 +36,23 @@ export default function ProfileSetupPage() {
     setFormData({ ...formData, garbaLevel: value });
   };
 
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      setError("Please choose an image file.");
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      setError("Please choose an image smaller than 2 MB.");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => setFormData((current) => ({ ...current, photoUrl: String(reader.result) }));
+    reader.readAsDataURL(file);
+    setError("");
+  };
+
   const nextStep = (e: React.FormEvent) => {
     e.preventDefault();
     if (step === 1 && (!formData.displayName || !formData.gender)) {
@@ -82,7 +99,7 @@ export default function ProfileSetupPage() {
   const TOTAL_STEPS = 3;
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-4 bg-zinc-950 relative overflow-hidden">
+    <main className="flex min-h-screen flex-col items-center justify-center px-4 py-8 sm:px-6 bg-zinc-950 relative overflow-hidden">
       <div className="orb orb-orange w-72 h-72 top-0 right-0 opacity-25 pointer-events-none" />
       <div className="orb orb-rose w-64 h-64 bottom-0 left-0 opacity-20 pointer-events-none" />
 
@@ -112,7 +129,7 @@ export default function ProfileSetupPage() {
         </div>
 
         {/* Card */}
-        <div className="card-glass rounded-3xl p-8 shadow-2xl">
+        <div className="card-glass rounded-3xl p-5 sm:p-8 shadow-2xl">
           {error && (
             <div className="mb-5 px-4 py-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-sm">
               {error}
@@ -128,12 +145,19 @@ export default function ProfileSetupPage() {
 
               {/* Avatar placeholder */}
               <div className="flex justify-center mb-6">
-                <div className="relative">
-                  <div className="w-24 h-24 rounded-full bg-zinc-800 border-2 border-dashed border-zinc-600 flex flex-col items-center justify-center cursor-pointer hover:border-orange-500 transition-colors group">
-                    <span className="text-3xl mb-1">📸</span>
-                    <span className="text-zinc-500 text-xs group-hover:text-orange-400 transition-colors">Add Photo</span>
+                <label className="relative block cursor-pointer">
+                  <div className="w-24 h-24 overflow-hidden rounded-full bg-zinc-800 border-2 border-dashed border-zinc-600 flex flex-col items-center justify-center hover:border-orange-500 transition-colors group">
+                    {formData.photoUrl ? (
+                      <img src={formData.photoUrl} alt="Profile preview" className="h-full w-full object-cover" />
+                    ) : (
+                      <>
+                        <span className="text-3xl mb-1">📸</span>
+                        <span className="text-zinc-500 text-xs group-hover:text-orange-400 transition-colors">Add Photo</span>
+                      </>
+                    )}
                   </div>
-                </div>
+                  <input type="file" accept="image/*" onChange={handlePhotoChange} className="sr-only" />
+                </label>
               </div>
 
               <div className="space-y-1.5">

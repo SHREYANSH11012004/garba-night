@@ -1,7 +1,7 @@
 "use client";
-import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { fetchApi } from '@/lib/api';
+import Navbar from '@/app/components/Navbar';
 
 interface Match {
   id: string;
@@ -18,7 +18,7 @@ export default function MatchesPage() {
   useEffect(() => {
     const loadMatches = async () => {
       try {
-        const response = await fetchApi('/decisions/matches');
+        const response = await fetchApi('/matches');
         if (response?.data) {
           setMatches(response.data);
         }
@@ -32,18 +32,13 @@ export default function MatchesPage() {
   }, []);
 
   return (
-    <main className="flex min-h-screen flex-col items-center bg-zinc-950 p-4 md:p-12 overflow-hidden">
-      
-      {/* Navbar */}
-      <nav className="w-full max-w-5xl flex justify-between items-center mb-8 z-20">
-        <Link href="/discovery" className="text-zinc-400 hover:text-white transition-colors">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg>
-        </Link>
-        <div className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-rose-500">
-          Your Matches
+    <>
+      <Navbar />
+      <main className="flex min-h-[calc(100vh-4rem)] flex-col items-center bg-zinc-950 px-4 py-8 sm:px-6 md:py-12 overflow-hidden">
+        <div className="w-full max-w-5xl mb-8">
+          <h1 className="text-3xl font-bold text-white">Your Matches</h1>
+          <p className="mt-2 text-sm text-zinc-500">People who accepted each other.</p>
         </div>
-        <div className="w-6" /> {/* Spacer */}
-      </nav>
 
       {/* Matches Grid */}
       <div className="w-full max-w-3xl grid grid-cols-1 md:grid-cols-2 gap-6 z-10">
@@ -83,6 +78,7 @@ export default function MatchesPage() {
         ))}
 
       </div>
-    </main>
+      </main>
+    </>
   );
 }

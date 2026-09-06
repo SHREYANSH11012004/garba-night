@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/decisions")
@@ -31,7 +32,7 @@ public class DecisionController {
         try {
             PartnerDecision decision = decisionService.recordDecision(getCurrentUserId(), targetPublicId, DecisionState.ACCEPTED);
             return ResponseEntity.ok(Map.of("status", "success", "data", decision));
-        } catch (IllegalStateException e) {
+        } catch (IllegalArgumentException | IllegalStateException e) {
             return ResponseEntity.status(409).body(Map.of("status", "error", "message", e.getMessage()));
         }
     }
@@ -41,7 +42,7 @@ public class DecisionController {
         try {
             PartnerDecision decision = decisionService.recordDecision(getCurrentUserId(), targetPublicId, DecisionState.REJECTED);
             return ResponseEntity.ok(Map.of("status", "success", "data", decision));
-        } catch (IllegalStateException e) {
+        } catch (IllegalArgumentException | IllegalStateException e) {
             return ResponseEntity.status(409).body(Map.of("status", "error", "message", e.getMessage()));
         }
     }
@@ -51,8 +52,14 @@ public class DecisionController {
         try {
             PartnerDecision decision = decisionService.recordDecision(getCurrentUserId(), targetPublicId, DecisionState.WAITING);
             return ResponseEntity.ok(Map.of("status", "success", "data", decision));
-        } catch (IllegalStateException e) {
+        } catch (IllegalArgumentException | IllegalStateException e) {
             return ResponseEntity.status(409).body(Map.of("status", "error", "message", e.getMessage()));
         }
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getMyDecisions() {
+        List<PartnerDecision> decisions = decisionService.getDecisions(getCurrentUserId());
+        return ResponseEntity.ok(Map.of("status", "success", "data", decisions));
     }
 }

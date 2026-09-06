@@ -81,6 +81,7 @@ export default function DiscoveryPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [swipeAnim, setSwipeAnim] = useState<"left" | "right" | "up" | null>(null);
   const [showConfirm, setShowConfirm] = useState<"ACCEPTED" | null>(null);
+  const [decisionError, setDecisionError] = useState("");
 
   useEffect(() => {
     const load = async () => {
@@ -99,21 +100,21 @@ export default function DiscoveryPage() {
   const handleDecision = async (status: "ACCEPTED" | "REJECTED" | "WAIT") => {
     const profile = profiles[currentIndex];
     if (!profile) return;
+    setDecisionError("");
 
     if (status === "ACCEPTED") {
       setShowConfirm("ACCEPTED");
       return;
     }
 
-    const anim = status === "REJECTED" ? "left" : "up";
-    setSwipeAnim(anim);
-
     try {
       await fetchApi(`/decisions/${profile.publicId}/${status.toLowerCase()}`, { method: "POST" });
-    } catch {
-      // silently continue
+    } catch (err: unknown) {
+      setDecisionError(err instanceof Error ? err.message : "Could not save your decision.");
+      return;
     }
 
+    setSwipeAnim(status === "REJECTED" ? "left" : "up");
     setTimeout(() => {
       setSwipeAnim(null);
       setCurrentIndex((i) => i + 1);
@@ -123,14 +124,17 @@ export default function DiscoveryPage() {
   const confirmAccept = async () => {
     const profile = profiles[currentIndex];
     if (!profile) return;
-    setSwipeAnim("right");
+    setDecisionError("");
 
     try {
       await fetchApi(`/decisions/${profile.publicId}/accept`, { method: "POST" });
-    } catch {
-      // silently continue
+    } catch (err: unknown) {
+      setDecisionError(err instanceof Error ? err.message : "Could not save your decision.");
+      setShowConfirm(null);
+      return;
     }
 
+    setSwipeAnim("right");
     setTimeout(() => {
       setSwipeAnim(null);
       setShowConfirm(null);
@@ -190,6 +194,11 @@ export default function DiscoveryPage() {
 
           {!loading && !error && currentProfile && (
             <>
+              {decisionError && (
+                <div className="mb-4 w-full rounded-xl border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-center text-sm text-rose-300">
+                  {decisionError}
+                </div>
+              )}
               {/* Next card (peek) */}
               {nextProfile && (
                 <div className="absolute inset-0 rounded-3xl overflow-hidden scale-95 opacity-60 pointer-events-none">

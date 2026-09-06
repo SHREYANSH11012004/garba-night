@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.Optional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -74,5 +75,9 @@ public class DecisionService {
                     .build();
             matchRepository.save(match);
         }
+    }
+
+    public List<PartnerDecision> getDecisions(String actorId) {
+        return decisionRepository.findByActorUserId(actorId);
     }
 }
