@@ -37,7 +37,7 @@ export default function MatchesPage() {
       <main className="flex min-h-[calc(100vh-4rem)] flex-col items-center bg-zinc-950 px-4 py-8 sm:px-6 md:py-12 overflow-hidden">
         <div className="w-full max-w-5xl mb-8">
           <h1 className="text-3xl font-bold text-white">Your Matches</h1>
-          <p className="mt-2 text-sm text-zinc-500">People who accepted each other.</p>
+          <p className="mt-2 text-sm text-zinc-500">People who<br />accepted each other.</p>
         </div>
 
       {/* Matches Grid */}
@@ -57,7 +57,7 @@ export default function MatchesPage() {
 
         {!loading && matches.length === 0 && !error && (
           <div className="col-span-full bg-zinc-900/50 border border-dashed border-zinc-800 rounded-2xl p-4 flex gap-4 items-center justify-center min-h-[100px]">
-            <p className="text-zinc-500 text-sm">Keep discovering to find more partners.</p>
+            <p className="text-zinc-500 text-sm">Keep discovering<br />to find more partners.</p>
           </div>
         )}
 

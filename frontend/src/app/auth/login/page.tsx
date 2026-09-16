@@ -54,7 +54,7 @@ export default function LoginPage() {
           <h1 style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)" }} className="text-3xl font-bold text-white mt-4 mb-1">
             Welcome back
           </h1>
-          <p className="text-zinc-400 text-sm">Sign in to your Garba Partner account</p>
+          <p className="text-zinc-400 text-sm">Sign in to your<br />Garba Partner account</p>
         </div>
 
         {/* Card */}
@@ -80,7 +80,7 @@ export default function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   className="input-field pl-10 pr-4 py-3.5 text-sm"
-                  placeholder="you@jssaten.ac.in"
+                  placeholder="student@jssaten.ac.in"
                   autoComplete="email"
                 />
               </div>
@@ -142,7 +142,7 @@ export default function LoginPage() {
 
         {/* Domain hint */}
         <p className="text-center text-zinc-600 text-xs mt-6">
-          Only @jssaten.ac.in and @jssuninoida.edu.in emails are accepted
+          Only @jssaten.ac.in and<br />@jssuninoida.edu.in emails are accepted
         </p>
       </div>
     </main>

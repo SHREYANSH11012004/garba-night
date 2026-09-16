@@ -78,7 +78,7 @@ export default function Navbar() {
         className={[
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           scrolled
-            ? "bg-zinc-950/90 backdrop-blur-xl border-b border-zinc-800/60 shadow-lg"
+            ? "bg-[#0B071E]/90 backdrop-blur-xl border-b border-[#FFB300]/20 shadow-lg"
             : "bg-transparent",
         ].join(" ")}
       >
@@ -87,14 +87,14 @@ export default function Navbar() {
             {/* Logo */}
             <Link href="/discovery" className="flex items-center gap-2 group">
               <div className="relative w-8 h-8">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 to-rose-500 flex items-center justify-center text-white text-sm font-black shadow-lg group-hover:shadow-orange-500/40 transition-shadow">
-                  G
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#E91E63] via-[#FFB300] to-[#00E5FF] flex items-center justify-center text-[#060312] text-sm font-black shadow-lg group-hover:shadow-[#FFB300]/40 transition-shadow">
+                    ✦
                 </div>
                 <div className="absolute inset-0 rounded-full bg-gradient-to-br from-orange-500 to-rose-500 opacity-0 group-hover:opacity-40 blur-md transition-opacity" />
               </div>
               <span
                 style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)" }}
-                className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-rose-400 hidden sm:block"
+                className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#FFD54F] to-[#E91E63] hidden sm:block"
               >
                 Garba Partner
               </span>
@@ -109,11 +109,11 @@ export default function Navbar() {
                   className={[
                     "flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200",
                     isActive(item.href)
-                      ? "bg-orange-500/15 text-orange-400 border border-orange-500/25"
-                      : "text-zinc-400 hover:text-white hover:bg-zinc-800/60",
+                      ? "bg-[#FFB300]/15 text-[#FFD54F] border border-[#FFB300]/30"
+                      : "text-[#A69CC4] hover:text-white hover:bg-[#170E38]/70",
                   ].join(" ")}
                 >
-                  <span className={isActive(item.href) ? "text-orange-400" : "text-zinc-500"}>
+                  <span className={isActive(item.href) ? "text-[#FFD54F]" : "text-[#74659D]"}>
                     {item.icon}
                   </span>
                   {item.label}
@@ -125,7 +125,7 @@ export default function Navbar() {
             <div className="hidden md:flex items-center gap-3">
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition-all duration-200"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-[#A69CC4] hover:text-white hover:bg-[#170E38]/70 transition-all duration-200"
               >
                 <LogoutIcon />
                 Logout
@@ -134,7 +134,7 @@ export default function Navbar() {
 
             {/* Mobile hamburger */}
             <button
-              className="md:hidden p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition-all"
+              className="md:hidden p-2 rounded-xl text-[#A69CC4] hover:text-white hover:bg-[#170E38]/70 transition-all"
               onClick={() => setMobileOpen((v) => !v)}
               aria-label="Toggle menu"
             >
@@ -145,7 +145,7 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {mobileOpen && (
-          <div className="md:hidden border-t border-zinc-800/60 bg-zinc-950/95 backdrop-blur-xl">
+          <div className="md:hidden border-t border-[#FFB300]/20 bg-[#0B071E]/95 backdrop-blur-xl">
             <div className="px-4 py-3 space-y-1">
               {navItems.map((item) => (
                 <Link
@@ -155,8 +155,8 @@ export default function Navbar() {
                   className={[
                     "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200",
                     isActive(item.href)
-                      ? "bg-orange-500/15 text-orange-400 border border-orange-500/25"
-                      : "text-zinc-400 hover:text-white hover:bg-zinc-800/60",
+                      ? "bg-[#FFB300]/15 text-[#FFD54F] border border-[#FFB300]/30"
+                      : "text-[#A69CC4] hover:text-white hover:bg-[#170E38]/70",
                   ].join(" ")}
                 >
                   <span>{item.icon}</span>
@@ -165,7 +165,7 @@ export default function Navbar() {
               ))}
               <button
                 onClick={() => { setMobileOpen(false); handleLogout(); }}
-                className="flex w-full items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition-all duration-200"
+                className="flex w-full items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-[#A69CC4] hover:text-white hover:bg-[#170E38]/70 transition-all duration-200"
               >
                 <LogoutIcon />
                 Logout

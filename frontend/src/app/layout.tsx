@@ -1,26 +1,27 @@
 import type { Metadata } from "next";
-import { Inter, Outfit } from "next/font/google";
+import { Cinzel, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-jakarta",
   display: "swap",
+  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
-const outfit = Outfit({
+const cinzel = Cinzel({
   subsets: ["latin"],
-  variable: "--font-outfit",
+  variable: "--font-cinzel",
   display: "swap",
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
-  title: "Garba Partner — Find Your Rhythm",
-  description: "Find your rhythm. Find your partner. Own the Garba night. Exclusively for JSS college students.",
+  title: "GarbaSangam | Find Your Garba Partner",
+  description: "Find your Garba and Dandiya partner among verified JSS college students.",
   keywords: ["garba", "partner", "jssaten", "jssuninoida", "dance", "festival"],
   openGraph: {
-    title: "Garba Partner",
+    title: "GarbaSangam",
     description: "Find your Garba partner. Only for verified college students.",
     type: "website",
   },
@@ -32,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${outfit.variable} dark`}>
+    <html lang="en" className={`${jakarta.variable} ${cinzel.variable} dark`}>
       <body className="antialiased">
         {children}
       </body>

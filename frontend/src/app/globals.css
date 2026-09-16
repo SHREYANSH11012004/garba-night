@@ -1,46 +1,43 @@
 /* ============================================================
-   Garba Partner — Global CSS (Tailwind v4 + Custom Tokens)
-   Gamma Design System
+  GarbaSangam — Global CSS (Tailwind v4 + Custom Tokens)
    ============================================================ */
-
-/* ---- Google Fonts ---- */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @import "tailwindcss";
 
 /* ---- Design Tokens ---- */
 :root {
   /* Core brand */
-  --garba-orange: #f97316;
-  --garba-orange-light: #fb923c;
-  --garba-rose: #f43f5e;
-  --garba-rose-light: #fb7185;
-  --garba-amber: #f59e0b;
-  --garba-gold: #fbbf24;
+  --garba-orange: #ff5722;
+  --garba-orange-light: #ff8f00;
+  --garba-rose: #e91e63;
+  --garba-rose-light: #f06292;
+  --garba-amber: #ffb300;
+  --garba-gold: #ffd54f;
+  --garba-teal: #00e5ff;
 
   /* Surface */
-  --surface-950: #09090b;
-  --surface-900: #18181b;
-  --surface-800: #27272a;
-  --surface-700: #3f3f46;
-  --surface-600: #52525b;
-  --surface-500: #71717a;
-  --surface-400: #a1a1aa;
-  --surface-300: #d4d4d8;
-  --surface-200: #e4e4e7;
-  --surface-100: #f4f4f5;
+  --surface-950: #060312;
+  --surface-900: #0b071e;
+  --surface-800: #170e38;
+  --surface-700: #2a185c;
+  --surface-600: #49327e;
+  --surface-500: #74659d;
+  --surface-400: #a69cc4;
+  --surface-300: #d5d0e2;
+  --surface-200: #f1eff7;
+  --surface-100: #faf9fc;
 
   /* Typography */
-  --font-heading: 'Outfit', system-ui, sans-serif;
-  --font-body: 'Inter', system-ui, sans-serif;
+  --font-heading: var(--font-cinzel), Georgia, serif;
+  --font-body: var(--font-jakarta), system-ui, sans-serif;
 
   /* Gradients */
-  --gradient-brand: linear-gradient(135deg, #f97316 0%, #f43f5e 100%);
-  --gradient-brand-soft: linear-gradient(135deg, rgba(249,115,22,0.15) 0%, rgba(244,63,94,0.15) 100%);
-  --gradient-dark: linear-gradient(180deg, #18181b 0%, #09090b 100%);
-  --gradient-card: linear-gradient(180deg, transparent 0%, rgba(9,9,11,0.95) 100%);
-  --gradient-glow-orange: radial-gradient(circle, rgba(249,115,22,0.25) 0%, transparent 70%);
-  --gradient-glow-rose: radial-gradient(circle, rgba(244,63,94,0.20) 0%, transparent 70%);
+  --gradient-brand: linear-gradient(135deg, #e91e63 0%, #ff8f00 52%, #ffb300 100%);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(233,30,99,0.16) 0%, rgba(255,179,0,0.12) 100%);
+  --gradient-dark: linear-gradient(180deg, #170e38 0%, #060312 100%);
+  --gradient-card: linear-gradient(180deg, transparent 0%, rgba(6,3,18,0.96) 100%);
+  --gradient-glow-orange: radial-gradient(circle, rgba(255,143,0,0.22) 0%, transparent 70%);
+  --gradient-glow-rose: radial-gradient(circle, rgba(233,30,99,0.18) 0%, transparent 70%);
 
   /* Spacing scale */
   --space-xs: 0.25rem;
@@ -60,10 +57,10 @@
 
   /* Shadows */
   --shadow-card: 0 4px 24px rgba(0,0,0,0.4), 0 1px 4px rgba(0,0,0,0.2);
-  --shadow-glow-orange: 0 0 40px rgba(249,115,22,0.3), 0 0 80px rgba(249,115,22,0.15);
-  --shadow-glow-rose: 0 0 40px rgba(244,63,94,0.3), 0 0 80px rgba(244,63,94,0.15);
-  --shadow-btn: 0 4px 16px rgba(249,115,22,0.4);
-  --shadow-btn-hover: 0 8px 32px rgba(249,115,22,0.5);
+  --shadow-glow-orange: 0 0 40px rgba(255,143,0,0.3), 0 0 80px rgba(255,143,0,0.15);
+  --shadow-glow-rose: 0 0 40px rgba(233,30,99,0.3), 0 0 80px rgba(233,30,99,0.15);
+  --shadow-btn: 0 4px 16px rgba(255,143,0,0.4);
+  --shadow-btn-hover: 0 8px 32px rgba(233,30,99,0.42);
 
   /* Transitions */
   --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -86,16 +83,33 @@ html {
 
 body {
   font-family: var(--font-body);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
   background-color: var(--surface-950);
   color: var(--surface-200);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
+  background-image: radial-gradient(circle at 50% -10%, rgba(42,24,92,0.42), transparent 42%), radial-gradient(circle, rgba(255,179,0,0.06) 1px, transparent 1px);
+  background-size: auto, 24px 24px;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  line-height: 1.2;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+  padding-inline: 0.25rem;
+}
+
+p {
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+  padding-inline: 0.25rem;
+}
+
+label,
+li {
+  padding-inline: 0.25rem;
 }
 
 /* ---- Utility Classes ---- */
@@ -107,8 +121,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .card-glass {
-  background: rgba(24, 24, 27, 0.7);
-  border: 1px solid rgba(63, 63, 70, 0.5);
+  min-width: 0;
+  padding: clamp(1rem, 4vw, 2rem);
+  background: rgba(23, 14, 56, 0.62);
+  border: 1px solid rgba(255, 179, 0, 0.2);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
@@ -135,8 +151,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-secondary {
-  background: rgba(39, 39, 42, 0.8);
-  border: 1px solid rgba(63, 63, 70, 0.8);
+  background: rgba(23, 14, 56, 0.8);
+  border: 1px solid rgba(0, 229, 255, 0.35);
   color: var(--surface-200);
   font-family: var(--font-heading);
   font-weight: 500;
@@ -146,18 +162,22 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-secondary:hover {
-  background: rgba(63, 63, 70, 0.8);
-  border-color: rgba(113, 113, 122, 0.8);
+  background: rgba(0, 229, 255, 0.1);
+  border-color: rgba(0, 229, 255, 0.65);
   transform: translateY(-1px);
 }
 
 .input-field {
   width: 100%;
-  background: rgba(9, 9, 11, 0.8);
-  border: 1px solid rgba(63, 63, 70, 0.8);
+  display: block;
+  box-sizing: border-box;
+  min-height: 3.5rem;
+  background: rgba(6, 3, 18, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: var(--radius-md);
   color: white;
   font-family: var(--font-body);
+  line-height: 1.25;
   transition: border-color var(--duration-fast) var(--ease-smooth);
 }
 
@@ -176,11 +196,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .orb-orange {
-  background: rgba(249,115,22,0.2);
+  background: rgba(255,143,0,0.2);
 }
 
 .orb-rose {
-  background: rgba(244,63,94,0.15);
+  background: rgba(233,30,99,0.15);
 }
 
 /* ---- Animations ---- */

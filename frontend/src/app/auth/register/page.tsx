@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { fetchApi } from "@/lib/api";
 
@@ -12,6 +12,14 @@ export default function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const pendingEmail = localStorage.getItem("pendingRegistrationEmail");
+    if (pendingEmail) {
+      setEmail(pendingEmail);
+      localStorage.removeItem("pendingRegistrationEmail");
+    }
+  }, []);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,7 +71,7 @@ export default function RegisterPage() {
           <h1 style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)" }} className="text-3xl font-bold text-white mt-4 mb-1">
             Create Account
           </h1>
-          <p className="text-zinc-400 text-sm">Set up your Garba Partner access</p>
+          <p className="text-zinc-400 text-sm">Set up your<br />Garba Partner access</p>
         </div>
 
         {/* Card */}
