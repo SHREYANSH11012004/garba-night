@@ -21,4 +21,7 @@ public class RegisterRequest {
 
     @NotBlank(message = "Password is required")
     private String password;
+
+    @NotBlank(message = "Email verification is required")
+    private String verificationToken;
 }

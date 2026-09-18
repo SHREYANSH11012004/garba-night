@@ -3,13 +3,17 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { fetchApi } from "@/lib/api";
 
 export default function VerifyPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [step, setStep] = useState<"email" | "otp">("email");
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleContinue = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleContinue = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const normalizedEmail = email.trim().toLowerCase();
 
@@ -18,8 +22,30 @@ export default function VerifyPage() {
       return;
     }
 
-    localStorage.setItem("pendingRegistrationEmail", normalizedEmail);
-    router.push("/auth/register");
+    setLoading(true);
+    setError("");
+    try {
+      if (step === "email") {
+        await fetchApi("/auth/send-verification", {
+          method: "POST",
+          body: JSON.stringify({ email: normalizedEmail }),
+        });
+        setEmail(normalizedEmail);
+        setStep("otp");
+        return;
+      }
+
+      const response = await fetchApi("/auth/verify-email", {
+        method: "POST",
+        body: JSON.stringify({ email: normalizedEmail, otp }),
+      });
+      const verificationToken = response?.data?.verificationToken;
+      router.push(`/auth/register?email=${encodeURIComponent(normalizedEmail)}&verificationToken=${encodeURIComponent(verificationToken)}`);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Verification failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -80,6 +106,7 @@ export default function VerifyPage() {
                   required
                   className="input-field px-4 py-3.5 text-sm"
                   placeholder="student@jssaten.ac.in"
+                  disabled={step === "otp"}
                 />
               </div>
               <p className="text-xs text-zinc-600">
@@ -88,12 +115,31 @@ export default function VerifyPage() {
               {error && <p className="text-xs text-rose-400">{error}</p>}
             </div>
 
+            {step === "otp" && (
+              <div className="space-y-1.5">
+                <label className="block text-sm font-medium text-zinc-300">Verification Code</label>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]{6}"
+                  maxLength={6}
+                  value={otp}
+                  onChange={(event) => setOtp(event.target.value.replace(/\D/g, ""))}
+                  required
+                  className="input-field px-4 py-3.5 text-sm tracking-[0.35em]"
+                  placeholder="000000"
+                />
+                <p className="text-xs text-zinc-600">Check your college inbox. The code expires in 10 minutes.</p>
+              </div>
+            )}
+
             <button
               type="submit"
+              disabled={loading}
               className="btn-primary w-full block text-center py-4 text-base rounded-xl font-semibold"
               style={{ background: "var(--gradient-brand)" }}
             >
-              Continue to Registration →
+              {loading ? "Checking..." : step === "email" ? "Send Verification Code →" : "Verify Email →"}
             </button>
           </form>
 

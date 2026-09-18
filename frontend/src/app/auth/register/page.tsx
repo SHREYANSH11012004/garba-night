@@ -1,25 +1,19 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { fetchApi } from "@/lib/api";
 
-export default function RegisterPage() {
+function RegisterForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [collegeIdentity, setCollegeIdentity] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(() => searchParams.get("email") || "");
+  const [verificationToken] = useState(() => searchParams.get("verificationToken") || "");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const pendingEmail = localStorage.getItem("pendingRegistrationEmail");
-    if (pendingEmail) {
-      setEmail(pendingEmail);
-      localStorage.removeItem("pendingRegistrationEmail");
-    }
-  }, []);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,7 +31,7 @@ export default function RegisterPage() {
     try {
       const response = await fetchApi("/auth/register", {
         method: "POST",
-        body: JSON.stringify({ collegeIdentity, email, password }),
+        body: JSON.stringify({ collegeIdentity, email, password, verificationToken }),
       });
       if (response?.data?.token) {
         localStorage.setItem("token", response.data.token);
@@ -113,6 +107,7 @@ export default function RegisterPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  disabled={Boolean(verificationToken)}
                   required
                   className={[
                     "input-field pl-10 pr-10 py-3.5 text-sm transition-all",
@@ -200,5 +195,13 @@ export default function RegisterPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={<main className="min-h-screen bg-zinc-950" />}>
+      <RegisterForm />
+    </Suspense>
   );
 }

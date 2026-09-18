@@ -21,21 +21,22 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final CollegeEmailValidator collegeEmailValidator;
+    private final EmailVerificationService emailVerificationService;
 
     public AuthResponse register(RegisterRequest request) {
-        // Simple verification that it's a college email
-        if (!(request.getEmail().endsWith("@jssaten.ac.in") || request.getEmail().endsWith("@jssuninoida.edu.in"))) {
-            throw new IllegalArgumentException("Only JSSATEN (@jssaten.ac.in) and JSSUNINOIDA (@jssuninoida.edu.in) email domains are allowed.");
-        }
+        String normalizedEmail = collegeEmailValidator.normalizeAndValidate(request.getEmail());
 
-        Optional<User> existingUser = userRepository.findByEmail(request.getEmail());
+        Optional<User> existingUser = userRepository.findByEmail(normalizedEmail);
         if (existingUser.isPresent()) {
             throw new IllegalStateException("Email already in use.");
         }
 
+        emailVerificationService.consumeVerification(normalizedEmail, request.getVerificationToken());
+
         User user = User.builder()
                 .collegeIdentity(request.getCollegeIdentity())
-                .email(request.getEmail())
+                .email(normalizedEmail)
                 .passwordHash(passwordEncoder.encode(request.getPassword()))
                 .role(Role.STUDENT)
                 .status(UserStatus.ACTIVE) // For now assume active
